@@ -14,5 +14,5 @@ patch -p1 < ../android_art.patch
 ~~~
 wget https://github.com/LGgFour/android_patches/raw/lineage-17.1/platform_bionic.patch
 cd bionic
-patch -p1 < platform_bionic.patch
+patch -p1 < ../platform_bionic.patch
 ~~~
