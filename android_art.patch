@@ -1,0 +1,27 @@
+From 9808407b304f387a62b4dcda47998e611a63f416 Mon Sep 17 00:00:00 2001
+From: Luca Stefani <luca.stefani.ge1@gmail.com>
+Date: Mon, 9 Sep 2019 15:38:10 +0200
+Subject: [PATCH] Don't fail dual map if memfd isn't supported
+
+* Older kernels don't support memfd_create syscall
+* Check if the syscall is implemented instead of failing
+
+Test: m, 3.10 device boots
+Change-Id: I4eedf12738bdb0f25cfc3a668ec37c3db547d43c
+---
+ runtime/jit/jit_code_cache.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/runtime/jit/jit_code_cache.cc b/runtime/jit/jit_code_cache.cc
+index a6aefc4773..bc0dc9dd94 100644
+--- a/runtime/jit/jit_code_cache.cc
++++ b/runtime/jit/jit_code_cache.cc
+@@ -206,7 +206,7 @@ bool JitCodeCache::InitializeMappings(bool rwx_memory_allowed,
+   if (!is_zygote) {
+     // Bionic supports memfd_create, but the call may fail on older kernels.
+     mem_fd = unique_fd(art::memfd_create("/jit-cache", /* flags= */ 0));
+-    if (mem_fd.get() < 0) {
++    if (mem_fd.get() < 0 && errno != ENOSYS) {
+       std::ostringstream oss;
+       oss << "Failed to initialize dual view JIT. memfd_create() error: " << strerror(errno);
+       if (!rwx_memory_allowed) {
