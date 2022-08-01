@@ -1,0 +1,45 @@
+From c468a1f6c5b6b7cdb19cce51a9cdac896a38dd7d Mon Sep 17 00:00:00 2001
+From: Nauval Rizky <enuma.alrizky@gmail.com>
+Date: Thu, 23 Jan 2020 02:35:58 +0900
+Subject: [PATCH] Check Null-safeness when switching optional-codecs state
+
+When checking the codecs type (if it was SBC or not), there's
+a chance that they'll throw an NPE and fails to either raise
+or lowering the SBC priority.
+
+Bug:
+java.lang.NullPointerException: Attempt to invoke virtual method 'boolean android.bluetooth.BluetoothCodecConfig.isMandatoryCodec()' on a null object reference
+	at com.android.bluetooth.a2dp.A2dpCodecConfig.enableOptionalCodecs(A2dpCodecConfig.java:108)
+....
+java.lang.NullPointerException: Attempt to invoke virtual method 'boolean android.bluetooth.BluetoothCodecConfig.isMandatoryCodec()' on a null object reference
+	at com.android.bluetooth.a2dp.A2dpCodecConfig.disableOptionalCodecs(A2dpCodecConfig.java:129)
+....
+
+Signed-off-by: Jabiyeff <cebiyevanar@gmail.com>
+Signed-off-by: Pranav Vashi <neobuddy89@gmail.com>
+---
+ src/com/android/bluetooth/a2dp/A2dpCodecConfig.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java b/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
+index be687c9cc..5ab695b31 100644
+--- a/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
++++ b/src/com/android/bluetooth/a2dp/A2dpCodecConfig.java
+@@ -110,7 +110,7 @@ boolean enableOptionalCodecs(BluetoothDevice device, BluetoothCodecConfig curren
+         // Set the mandatory codec's priority to default, and remove the rest
+         for (int i = 0; i < assigned_codec_length; i++) {
+             BluetoothCodecConfig codecConfig = codecConfigArray[i];
+-            if (!codecConfig.isMandatoryCodec()) {
++            if (codecConfig != null && !codecConfig.isMandatoryCodec()) {
+                 codecConfigArray[i] = null;
+             }
+         }
+@@ -131,7 +131,7 @@ boolean disableOptionalCodecs(BluetoothDevice device, BluetoothCodecConfig curre
+         // Set the mandatory codec's priority to highest, and remove the rest
+         for (int i = 0; i < assigned_codec_length; i++) {
+             BluetoothCodecConfig codecConfig = codecConfigArray[i];
+-            if (codecConfig.isMandatoryCodec()) {
++            if (codecConfig != null && codecConfig.isMandatoryCodec()) {
+                 codecConfig.setCodecPriority(BluetoothCodecConfig.CODEC_PRIORITY_HIGHEST);
+             } else {
+                 codecConfigArray[i] = null;
