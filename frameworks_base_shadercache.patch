@@ -1,0 +1,17 @@
+
+project frameworks/base/
+diff --git a/frameworks/base/libs/hwui/renderthread/CacheManager.cpp b/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
+index f510a205530..ef61c836eda 100644
+--- a/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
++++ b/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
+@@ -50,9 +50,7 @@ CacheManager::CacheManager(const DisplayInfo& display) : mMaxSurfaceArea(display
+     mVectorDrawableAtlas = new skiapipeline::VectorDrawableAtlas(
+             mMaxSurfaceArea / 2,
+             skiapipeline::VectorDrawableAtlas::StorageMode::disallowSharedSurface);
+-    if (Properties::isSkiaEnabled()) {
+-        skiapipeline::ShaderCache::get().initShaderDiskCache();
+-    }
++            skiapipeline::ShaderCache::get().initShaderDiskCache();
+ }
+ 
+ void CacheManager::reset(sk_sp<GrContext> context) {
