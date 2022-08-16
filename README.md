@@ -2,7 +2,11 @@
 
 1. update your local manifest:
 
-`<project path="external/patches" name="android_external_patches" remote="gfour" revision="android-9.0" />`
+~~~
+<remote name="gfour" fetch="ssh://git@github.com/LGgFour/" />
+
+<project path="external/patches" name="android_external_patches" remote="gfour" revision="android-9.0" />
+~~~
 
 2. apply the patch(es):
 
