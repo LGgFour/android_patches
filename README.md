@@ -1,18 +1,12 @@
 # android_patches
 
+1. update your local manifest:
 
-## android_art
+`<project path="external/patches" name="android_external_patches" remote="gfour" revision="android-9.0" />`
 
-~~~
-wget https://github.com/LGgFour/android_patches/raw/lineage-17.1/android_art.patch 
-cd art/
-patch -p1 < ../android_art.patch
-~~~
-
-## platform_bionic
+2. apply the patch(es):
 
 ~~~
-wget https://github.com/LGgFour/android_patches/raw/lineage-17.1/platform_bionic.patch
-cd bionic
-patch -p1 < ../platform_bionic.patch
+cd <android src path>
+git apply external/patches/<patchname>
 ~~~
