@@ -1,9 +1,9 @@
 
 project frameworks/base/
-diff --git a/frameworks/base/libs/hwui/renderthread/CacheManager.cpp b/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
+diff --git a/libs/hwui/renderthread/CacheManager.cpp b/libs/hwui/renderthread/CacheManager.cpp
 index f510a205530..ef61c836eda 100644
---- a/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
-+++ b/frameworks/base/libs/hwui/renderthread/CacheManager.cpp
+--- a/libs/hwui/renderthread/CacheManager.cpp
++++ b/libs/hwui/renderthread/CacheManager.cpp
 @@ -50,9 +50,7 @@ CacheManager::CacheManager(const DisplayInfo& display) : mMaxSurfaceArea(display
      mVectorDrawableAtlas = new skiapipeline::VectorDrawableAtlas(
              mMaxSurfaceArea / 2,
