@@ -1,0 +1,15 @@
+
+project system/sepolicy/
+diff --git a/Android.mk b/Android.mk
+index ff38a43a..cd71f280 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -82,7 +82,7 @@ endif
+ 
+ NEVERALLOW_ARG :=
+ ifeq ($(SELINUX_IGNORE_NEVERALLOWS),true)
+-ifeq ($(TARGET_BUILD_VARIANT),user)
++ifeq ($(TARGET_BUILD_VARIANT),user_DISABLED)
+ $(error SELINUX_IGNORE_NEVERALLOWS := true cannot be used in user builds)
+ endif
+ $(warning Be careful when using the SELINUX_IGNORE_NEVERALLOWS flag. \
