@@ -12,5 +12,5 @@
 
 ~~~
 cd <android src path>
-git apply external/patches/<patchname>
+bash external/patches/apply.sh
 ~~~
