@@ -5,7 +5,7 @@
 ~~~
 <remote name="gfour" fetch="ssh://git@github.com/LGgFour/" />
 
-<project path="external/patches" name="android_external_patches" remote="gfour" revision="android-9.0" />
+<project path="external/patches" name="android_external_patches" remote="gfour" revision="android-9_dos" />
 ~~~
 
 2. apply the patch(es):
