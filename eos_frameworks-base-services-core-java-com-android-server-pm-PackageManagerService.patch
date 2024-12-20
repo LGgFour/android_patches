@@ -1,7 +1,7 @@
 
 project frameworks/base/
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index b66f173d5fc..7d1bab6d4f5 100644
+index cfd888a1cba..c39e0e496c4 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -191,6 +191,7 @@ import android.content.pm.SELinuxUtil;
@@ -12,17 +12,18 @@ index b66f173d5fc..7d1bab6d4f5 100644
  import android.content.pm.UserInfo;
  import android.content.pm.VerifierDeviceIdentity;
  import android.content.pm.VerifierInfo;
-@@ -4110,6 +4111,18 @@ public class PackageManagerService extends IPackageManager.Stub
+@@ -4110,6 +4111,19 @@ public class PackageManagerService extends IPackageManager.Stub
                  String sig = p.mAppMetaData.getString("fake-signature");
                  if (sig != null) {
                      pi.signatures = new Signature[] {new Signature(sig)};
 +                    try {
++                        int[] pastSigningCertificatesFlags = new int[0]; // fixes: Attempt to invoke virtual method 'java.lang.Object int[].clone()' on a null object reference
 +                        pi.signingInfo = new SigningInfo(
 +                            new SigningDetails(
 +                                    pi.signatures,
 +                                    SigningDetails.SignatureSchemeVersion.SIGNING_BLOCK_V3,
-+                                    PackageParser.toSigningKeys(pi.signatures),
-+                                    null
++                                    pi.signatures,
++                                    pastSigningCertificatesFlags
 +                            )
 +                        );
 +                    } catch (CertificateException e) {
